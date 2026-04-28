@@ -1,8 +1,8 @@
 /**
  * Regenerate the published artefacts from src/fields/*.ts:
  *
- *   data/supplier-questionnaire.json    — the questionnaire data, validated
- *   schema/supplier-questionnaire.schema.json — JSON Schema for non-TS consumers
+ *   data/supply-chain-questionnaire.json    — the questionnaire data, validated
+ *   schema/supply-chain-questionnaire.schema.json — JSON Schema for non-TS consumers
  *
  * The TypeScript field files in src/fields/ are the source of truth.
  * Run after editing any of them:
@@ -22,15 +22,15 @@ import { supplierQuestionnaireSchema } from "../src/schema";
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "..");
 
-const dataPath = join(root, "data", "supplier-questionnaire.json");
+const dataPath = join(root, "data", "supply-chain-questionnaire.json");
 const dataOut = JSON.stringify(supplierQuestionnaire, null, 2) + "\n";
 writeFileSync(dataPath, dataOut);
 
 const schemaDir = join(root, "schema");
 mkdirSync(schemaDir, { recursive: true });
-const schemaPath = join(schemaDir, "supplier-questionnaire.schema.json");
+const schemaPath = join(schemaDir, "supply-chain-questionnaire.schema.json");
 const jsonSchema = zodToJsonSchema(supplierQuestionnaireSchema, {
-  name: "SupplierQuestionnaire",
+  name: "SupplyChainQuestionnaire",
   $refStrategy: "none",
 });
 const schemaOut = JSON.stringify(jsonSchema, null, 2) + "\n";

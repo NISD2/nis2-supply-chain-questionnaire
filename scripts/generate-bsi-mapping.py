@@ -10,7 +10,7 @@ from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA_PATH = ROOT / "data" / "supplier-questionnaire.json"
+DATA_PATH = ROOT / "data" / "supply-chain-questionnaire.json"
 OUT_PATH = ROOT / "data" / "bsi-lieferketten-mapping.md"
 
 BAUSTEIN_TITLES = {
@@ -69,7 +69,7 @@ def main() -> int:
     )
     out.append("")
     out.append(
-        "Generated from `data/supplier-questionnaire.json`. Do not edit by hand. "
+        "Generated from `data/supply-chain-questionnaire.json`. Do not edit by hand. "
         "Re-run `scripts/generate-bsi-mapping.py` after editing field tags.",
     )
     out.append("")

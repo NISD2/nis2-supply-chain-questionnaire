@@ -2,7 +2,7 @@
 
 Customer-facing view: given a Baustein from the [BSI NIS-2 Lieferketten-Checkliste v1.0 (5 June 2025)](https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/NIS-2/nis-2-lieferkette_grundschutz-checkliste.pdf), which questionnaire fields help satisfy it.
 
-Generated from `data/supplier-questionnaire.json`. Do not edit by hand. Re-run `scripts/generate-bsi-mapping.py` after editing field tags.
+Generated from `data/supply-chain-questionnaire.json`. Do not edit by hand. Re-run `scripts/generate-bsi-mapping.py` after editing field tags.
 
 **Coverage:** 46 Bausteine, 72 field-mappings, 56 fields total.
 

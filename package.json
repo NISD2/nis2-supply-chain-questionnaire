@@ -1,15 +1,15 @@
 {
-  "name": "@nisd2/nis2-supplier-questionnaire",
-  "version": "1.3.0",
-  "description": "Open NIS2 supply-chain questionnaire — a Zod-typed catalogue of supplier-due-diligence fields anchored to NIS2, CIR 2024/2690, ENISA TIG, and BSI IT-Grundschutz. The questions a customer subject to NIS2 supply-chain obligations needs to ask their suppliers.",
+  "name": "@nisd2/nis2-supply-chain-questionnaire",
+  "version": "1.4.0",
+  "description": "Open data format for the NIS2 supply-chain questionnaire — typed Zod schema as source of truth, JSON + JSON Schema as published artefacts. The questions a NIS2-regulated entity asks its suppliers, anchored to NIS2 Art. 21(2)(d), CIR 2024/2690, ENISA TIG, and BSI IT-Grundschutz.",
   "license": "SEE LICENSE IN LICENSE",
-  "homepage": "https://github.com/NISD2/nis2-supplier-questionnaire",
+  "homepage": "https://github.com/NISD2/nis2-supply-chain-questionnaire",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NISD2/nis2-supplier-questionnaire.git"
+    "url": "git+https://github.com/NISD2/nis2-supply-chain-questionnaire.git"
   },
   "bugs": {
-    "url": "https://github.com/NISD2/nis2-supplier-questionnaire/issues"
+    "url": "https://github.com/NISD2/nis2-supply-chain-questionnaire/issues"
   },
   "author": "Kardashev Catalyst UG (haftungsbeschränkt) <contact@nisd2.eu> (https://nisd2.eu)",
   "keywords": [
@@ -39,8 +39,8 @@
       "types": "./dist/data.d.ts",
       "import": "./dist/data.js"
     },
-    "./data/supplier-questionnaire.json": "./data/supplier-questionnaire.json",
-    "./schema/supplier-questionnaire.schema.json": "./schema/supplier-questionnaire.schema.json"
+    "./data/supply-chain-questionnaire.json": "./data/supply-chain-questionnaire.json",
+    "./schema/supply-chain-questionnaire.schema.json": "./schema/supply-chain-questionnaire.schema.json"
   },
   "files": [
     "dist",
@@ -59,7 +59,7 @@
     "build:json": "bun scripts/build-json.ts",
     "generate:bsi-mapping": "python3 scripts/generate-bsi-mapping.py",
     "validate": "bun src/data.ts && echo 'OK: TS source validates against schema'",
-    "check:json-in-sync": "bun scripts/build-json.ts && git diff --exit-code data/supplier-questionnaire.json schema/supplier-questionnaire.schema.json"
+    "check:json-in-sync": "bun scripts/build-json.ts && git diff --exit-code data/supply-chain-questionnaire.json schema/supply-chain-questionnaire.schema.json"
   },
   "dependencies": {
     "zod": "^3.23.0"

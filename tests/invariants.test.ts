@@ -1,46 +1,29 @@
 import { describe, expect, test } from "bun:test";
 import { supplierQuestionnaire, groupBySection, visibleFields } from "../src/data";
-import { SECTION, FIELD_TYPE } from "../src/schema";
+import { FIELD_TYPE } from "../src/schema";
 
-describe("schema parses", () => {
-  test("loads with no errors", () => {
+// These tests guard invariants that the Zod schema cannot express:
+// uniqueness, cross-references, conditional shape, semantic content,
+// and helper-function behaviour. Anything Zod already enforces (regex,
+// enum membership, min-length on locales) is intentionally not covered
+// here — the parse in src/data.ts would fail first.
+
+describe("data loads", () => {
+  test("schema parses and the questionnaire is non-empty", () => {
     expect(supplierQuestionnaire.fields.length).toBeGreaterThan(0);
     expect(supplierQuestionnaire.version).toMatch(/^\d+\.\d+\.\d+$/);
   });
 });
 
-describe("field IDs", () => {
-  test("are unique", () => {
+describe("uniqueness", () => {
+  test("field IDs are unique", () => {
     const ids = supplierQuestionnaire.fields.map((f) => f.id);
-    const uniqueIds = new Set(ids);
-    expect(uniqueIds.size).toBe(ids.length);
-  });
-
-  test("are camelCase", () => {
-    for (const field of supplierQuestionnaire.fields) {
-      expect(field.id).toMatch(/^[a-z][a-zA-Z0-9]*$/);
-    }
+    expect(new Set(ids).size).toBe(ids.length);
   });
 });
 
-describe("section enum", () => {
-  test("every field section is a known SECTION value", () => {
-    const valid = new Set<string>(Object.values(SECTION));
-    for (const field of supplierQuestionnaire.fields) {
-      expect(valid.has(field.section)).toBe(true);
-    }
-  });
-});
-
-describe("field type enum", () => {
-  test("every field type is a known FIELD_TYPE value", () => {
-    const valid = new Set<string>(Object.values(FIELD_TYPE));
-    for (const field of supplierQuestionnaire.fields) {
-      expect(valid.has(field.type)).toBe(true);
-    }
-  });
-
-  test("enum-typed fields have non-empty options", () => {
+describe("conditional shape", () => {
+  test("enum-typed fields have non-empty options; non-enum fields have none", () => {
     for (const field of supplierQuestionnaire.fields) {
       if (field.type === FIELD_TYPE.ENUM) {
         expect(field.options).toBeDefined();
@@ -52,7 +35,7 @@ describe("field type enum", () => {
   });
 });
 
-describe("visibleWhen references", () => {
+describe("cross-references", () => {
   test("every visibleWhen.field resolves to an existing field", () => {
     const ids = new Set(supplierQuestionnaire.fields.map((f) => f.id));
     for (const field of supplierQuestionnaire.fields) {
@@ -61,19 +44,36 @@ describe("visibleWhen references", () => {
       }
     }
   });
-});
 
-describe("BSI Bausteine", () => {
-  test("every Baustein ID matches the canonical pattern", () => {
-    const pattern = /^[A-Z]+\.[0-9A-Z][0-9A-Z.]*$/;
+  test("every visibleWhen.equals value matches the referenced field's type", () => {
+    const fieldsById = new Map(supplierQuestionnaire.fields.map((f) => [f.id, f]));
     for (const field of supplierQuestionnaire.fields) {
-      for (const baustein of field.bsiBausteine ?? []) {
-        expect(baustein).toMatch(pattern);
+      if (!field.visibleWhen) continue;
+      const target = fieldsById.get(field.visibleWhen.field);
+      if (!target) throw new Error("unreachable — guarded by previous test");
+      const equals = field.visibleWhen.equals;
+      switch (target.type) {
+        case FIELD_TYPE.BOOLEAN:
+          expect(typeof equals).toBe("boolean");
+          break;
+        case FIELD_TYPE.INTEGER:
+          expect(typeof equals).toBe("number");
+          break;
+        case FIELD_TYPE.ENUM: {
+          expect(typeof equals).toBe("string");
+          const allowed = new Set((target.options ?? []).map((o) => o.value));
+          expect(allowed.has(equals as string)).toBe(true);
+          break;
+        }
+        default:
+          expect(typeof equals).toBe("string");
       }
     }
   });
+});
 
-  test("supplier-specific Bausteine (BES.*, DLS.*, ASST.*, DEV.6) appear at least once", () => {
+describe("BSI alignment", () => {
+  test("supplier-specific Baustein families (BES, DLS, ASST, DEV) all appear at least once", () => {
     const all = supplierQuestionnaire.fields.flatMap((f) => f.bsiBausteine ?? []);
     const prefixes = new Set(all.map((b) => b.split(".")[0]));
     for (const required of ["BES", "DLS", "ASST", "DEV"]) {
@@ -82,29 +82,8 @@ describe("BSI Bausteine", () => {
   });
 });
 
-describe("legalBasis", () => {
-  test("every field cites a primary source", () => {
-    const knownPrefixes = ["NIS2", "CIR", "ENISA", "BSI", "GDPR", "CRA"];
-    for (const field of supplierQuestionnaire.fields) {
-      const matched = knownPrefixes.some((p) => field.legalBasis.startsWith(p));
-      expect(matched).toBe(true);
-    }
-  });
-});
-
-describe("localised strings", () => {
-  test("every label and description has en + de", () => {
-    for (const field of supplierQuestionnaire.fields) {
-      expect(field.label.en.trim().length).toBeGreaterThan(0);
-      expect(field.label.de.trim().length).toBeGreaterThan(0);
-      expect(field.description.en.trim().length).toBeGreaterThan(0);
-      expect(field.description.de.trim().length).toBeGreaterThan(0);
-    }
-  });
-});
-
-describe("groupBySection", () => {
-  test("returns a map keyed by section with every field placed once", () => {
+describe("helpers", () => {
+  test("groupBySection places every field in exactly one section bucket", () => {
     const grouped = groupBySection(supplierQuestionnaire);
     let total = 0;
     for (const fields of grouped.values()) {
@@ -112,10 +91,8 @@ describe("groupBySection", () => {
     }
     expect(total).toBe(supplierQuestionnaire.fields.length);
   });
-});
 
-describe("visibleFields", () => {
-  test("returns fields with no visibleWhen plus those whose condition holds", () => {
+  test("visibleFields hides fields whose condition does not hold", () => {
     const response = { isSaas: true, isOnPrem: false };
     const visible = visibleFields(supplierQuestionnaire, response);
     const visibleIds = new Set(visible.map((f) => f.id));

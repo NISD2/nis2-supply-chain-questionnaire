@@ -1,5 +1,5 @@
 // Source of truth for the supplier questionnaire fields in this section.
-// Edit this file (not data/supplier-questionnaire.json) and run
+// Edit this file (not data/supply-chain-questionnaire.json) and run
 // `bun run build:json` to regenerate the published JSON artefact.
 
 import type { SupplierField } from "../schema";

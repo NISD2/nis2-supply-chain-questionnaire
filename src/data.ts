@@ -7,13 +7,13 @@ import { allFields } from "./fields";
 /**
  * Source of truth lives in `src/fields/<section>.ts` (TypeScript with full
  * type safety on label, type, section, and Baustein IDs). The bundled JSON
- * artefact at `data/supplier-questionnaire.json` is generated from these
+ * artefact at `data/supply-chain-questionnaire.json` is generated from these
  * files via `bun run build:json` and shipped for non-TS consumers.
  *
  * Bump these constants when shipping a release; CI will fail if the
  * generated JSON falls out of sync.
  */
-export const VERSION = "1.3.0";
+export const VERSION = "1.4.0";
 export const LAST_UPDATED = "2026-04-28";
 
 export const supplierQuestionnaire: SupplierQuestionnaire =

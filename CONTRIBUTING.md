@@ -20,8 +20,8 @@ Thanks for taking the time. This repo is small and opinionated. Read this once b
 ## Local setup
 
 ```bash
-git clone git@github.com:NISD2/nis2-supplier-questionnaire.git
-cd nis2-supplier-questionnaire
+git clone git@github.com:NISD2/nis2-supply-chain-questionnaire.git
+cd nis2-supply-chain-questionnaire
 bun install --no-save
 bun test
 bun run typecheck
@@ -30,7 +30,7 @@ bun run validate
 
 ## Editing fields
 
-The TypeScript files in `src/fields/` are the source of truth. Do not edit `data/supplier-questionnaire.json` directly — it is regenerated.
+The TypeScript files in `src/fields/` are the source of truth. Do not edit `data/supply-chain-questionnaire.json` directly — it is regenerated.
 
 ```bash
 # 1. Edit the relevant section file

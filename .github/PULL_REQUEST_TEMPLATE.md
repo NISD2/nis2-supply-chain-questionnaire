@@ -14,7 +14,7 @@
 ## Checklist
 
 - [ ] Edited the TS source in `src/fields/`, not the JSON
-- [ ] Ran `bun run build:json` to regenerate `data/supplier-questionnaire.json`
+- [ ] Ran `bun run build:json` to regenerate `data/supply-chain-questionnaire.json`
 - [ ] Ran `bun run generate:bsi-mapping` if `bsiBausteine` changed
 - [ ] `bun test` passes
 - [ ] `bun run typecheck` passes

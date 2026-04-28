@@ -4,6 +4,20 @@ All notable changes to this repository are documented here. Format follows [Keep
 
 ## [Unreleased]
 
+## [1.4.0] — 2026-04-28
+
+### Changed
+- **Repository and package renamed.** `nis2-supplier-questionnaire` → `nis2-supply-chain-questionnaire`. The data this represents is the supply-chain due diligence form, which matches the NIS2 Art. 21(2)(d) "supply chain security" obligation language and the BSI Lieferketten-Checkliste terminology. Old GitHub URL auto-redirects; consumers should update package.json references when convenient.
+- **Package name** is now `@nisd2/nis2-supply-chain-questionnaire`. Code-level identifiers (`supplierQuestionnaire`, `SupplierField`, `groupBySection`, `visibleFields`) are unchanged — they describe the supplier-facing artefacts in code, not the questionnaire's domain.
+- Data file renamed: `data/supplier-questionnaire.json` → `data/supply-chain-questionnaire.json`. Same for `schema/`.
+- README rewritten to lead with what the artefact is (an open data format), not how to use it.
+- Test suite trimmed: removed checks that duplicate Zod's own validation; kept cross-reference, semantic, and helper-function tests; added a `visibleWhen.equals` type-match check.
+
+### Migration
+- Update your `package.json`: `@nisd2/nis2-supplier-questionnaire` → `@nisd2/nis2-supply-chain-questionnaire`.
+- If you imported `data/supplier-questionnaire.json` directly, the new path is `data/supply-chain-questionnaire.json`.
+- The Zod schema, exported helper functions, and field IDs are unchanged.
+
 ## [1.3.0] — 2026-04-28
 
 ### Added
