@@ -19,8 +19,8 @@ Thanks for taking the time. This repo is small and opinionated. Read this once b
 ## Local setup
 
 ```bash
-git clone git@github.com:NISD2/nis2-supply-chain-questionnaire.git
-cd nis2-supply-chain-questionnaire
+git clone git@github.com:NISD2/nis2-supply-chain-questionnaire-schema.git
+cd nis2-supply-chain-questionnaire-schema
 bun install --no-save
 bun test
 bun run typecheck

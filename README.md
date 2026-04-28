@@ -1,7 +1,7 @@
 # NIS2 Supply Chain Questionnaire
 
 [![License: MIT + CC BY 4.0](https://img.shields.io/badge/license-MIT%20%2B%20CC%20BY%204.0-blue.svg)](./LICENSE)
-[![CI](https://github.com/NISD2/nis2-supply-chain-questionnaire/actions/workflows/validate.yml/badge.svg)](https://github.com/NISD2/nis2-supply-chain-questionnaire/actions/workflows/validate.yml)
+[![CI](https://github.com/NISD2/nis2-supply-chain-questionnaire-schema/actions/workflows/validate.yml/badge.svg)](https://github.com/NISD2/nis2-supply-chain-questionnaire-schema/actions/workflows/validate.yml)
 
 **An open data format.** The questions a NIS2-regulated entity needs to ask its suppliers, expressed once as a typed Zod schema and published as JSON + JSON Schema.
 
@@ -36,7 +36,7 @@ National-derivative frameworks (BSI IT-Grundschutz / Lieferketten-Checkliste in 
 This package is **not on the npm registry** — install directly from GitHub.
 
 ```bash
-bun add github:NISD2/nis2-supply-chain-questionnaire#v2.0.0
+bun add github:NISD2/nis2-supply-chain-questionnaire-schema#v2.0.0
 # npm, pnpm, yarn — same syntax
 ```
 
@@ -48,7 +48,7 @@ If you only need the data or the JSON Schema, download them directly from the re
 import {
   supplierQuestionnaire,
   groupBySection,
-} from "@nisd2/nis2-supply-chain-questionnaire";
+} from "@nisd2/nis2-supply-chain-questionnaire-schema";
 
 for (const [section, fields] of groupBySection(supplierQuestionnaire)) {
   console.log(`${section}: ${fields.length} fields`);
@@ -81,7 +81,7 @@ Structured guidance based on our reading of the NIS2 Directive, CIR 2024/2690, a
 
 ## Companion repo
 
-[NISD2/nis2-gap-assessment](https://github.com/NISD2/nis2-gap-assessment) — same data-format approach for NIS2 self-assessment.
+[NISD2/nis2-gap-assessment-schema](https://github.com/NISD2/nis2-gap-assessment-schema) — same data-format approach for NIS2 self-assessment.
 
 ## Contributing · Security · Changelog
 

@@ -4,6 +4,10 @@ All notable changes to this repository are documented here. Format follows [Keep
 
 ## [Unreleased]
 
+### Changed
+- **Repository and package renamed.** `nis2-supply-chain-questionnaire` → `nis2-supply-chain-questionnaire-schema`. The `-schema` suffix clarifies what this package actually is: a data + schema artefact, not an app or runtime. Old GitHub URL auto-redirects.
+- **Package name** is now `@nisd2/nis2-supply-chain-questionnaire-schema`. Code-level identifiers, exports, and field IDs are unchanged.
+
 ## [2.0.0] — 2026-04-28
 
 ### Removed (BREAKING)
