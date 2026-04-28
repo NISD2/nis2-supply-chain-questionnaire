@@ -1,0 +1,66 @@
+{
+  "name": "@nisd2/nis2-supplier-questionnaire",
+  "version": "1.0.0",
+  "description": "Open NIS2 supply-chain questionnaire — a Zod-typed catalogue of supplier-due-diligence fields anchored to NIS2, CIR 2024/2690, ENISA TIG, and BSI IT-Grundschutz. The questions a customer subject to NIS2 supply-chain obligations needs to ask their suppliers.",
+  "license": "SEE LICENSE IN LICENSE",
+  "homepage": "https://github.com/NISD2/nis2-supplier-questionnaire",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NISD2/nis2-supplier-questionnaire.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NISD2/nis2-supplier-questionnaire/issues"
+  },
+  "author": "Kardashev Catalyst UG (haftungsbeschränkt) <contact@nisd2.eu> (https://nisd2.eu)",
+  "keywords": [
+    "nis2",
+    "supply-chain",
+    "supplier-due-diligence",
+    "cir-2024-2690",
+    "enisa-tig",
+    "it-grundschutz",
+    "compliance",
+    "cybersecurity",
+    "zod"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./schema": {
+      "types": "./dist/schema.d.ts",
+      "import": "./dist/schema.js"
+    },
+    "./data": {
+      "types": "./dist/data.d.ts",
+      "import": "./dist/data.js"
+    },
+    "./data/supplier-questionnaire.json": "./data/supplier-questionnaire.json"
+  },
+  "files": [
+    "dist",
+    "data",
+    "src",
+    "examples",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "validate": "bun src/data.ts && echo 'OK: supplier-questionnaire.json validates against schema'"
+  },
+  "dependencies": {
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
