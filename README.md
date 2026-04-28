@@ -2,7 +2,7 @@
 
 [![License: MIT + CC BY 4.0](https://img.shields.io/badge/license-MIT%20%2B%20CC%20BY%204.0-blue.svg)](./LICENSE)
 
-**The questions a NIS2-regulated customer needs to ask their suppliers — as a typed Zod schema.** ~55 fields across 6 sections, each anchored to a specific source (NIS2 Art. 21(2), CIR 2024/2690, ENISA TIG, BSI IT-Grundschutz, GDPR Art. 28).
+**The questions a NIS2-regulated customer needs to ask their suppliers — as a typed Zod schema.** 56 fields across 6 sections, each anchored to a specific source (NIS2 Art. 21(2), CIR 2024/2690, ENISA TIG, BSI IT-Grundschutz, GDPR Art. 28). Every field is also tagged to the relevant Bausteine of the [BSI NIS-2 Lieferketten-Checkliste v1.0 (5 June 2025)](https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/NIS-2/nis-2-lieferkette_grundschutz-checkliste.pdf).
 
 Maintained by [Kardashev Catalyst UG](https://nisd2.eu) — operator of [nisd2.eu](https://nisd2.eu) — and the same questionnaire that powers the supplier portal at nisd2.eu.
 
@@ -45,7 +45,7 @@ bun add @nisd2/nis2-supplier-questionnaire
 Or pin to a specific commit / tag without npm:
 
 ```bash
-npm install github:NISD2/nis2-supplier-questionnaire#v1.0.0
+npm install github:NISD2/nis2-supplier-questionnaire#v1.1.0
 ```
 
 ---
@@ -108,19 +108,39 @@ fs.writeFileSync("./schema.json", JSON.stringify(jsonSchema, null, 2));
 
 ---
 
+## BSI NIS-2 Lieferketten-Checkliste alignment
+
+Every field carries an optional `bsiBausteine` array tagging the [BSI NIS-2 Lieferketten-Checkliste v1.0 (5 June 2025)](https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/NIS-2/nis-2-lieferkette_grundschutz-checkliste.pdf) Bausteine the supplier's answer helps satisfy. 56 fields cover 46 unique Bausteine across BES.* (Beschaffungsmanagement), DLS.* (Dienstleistersteuerung), ASST.* (Asset-Schnittstellen), and DEV.6 (SBOM).
+
+Customers in Germany can use this to point an auditor at a specific BSI Baustein ID for every supplier-side answer they hold. The mapping is one-to-many: a single field may satisfy several Bausteine, and a single Baustein may be satisfied by several fields. Inverse view (Baustein → field IDs) is in [`data/bsi-lieferketten-mapping.md`](./data/bsi-lieferketten-mapping.md).
+
+This is alignment, not certification. BSI does not endorse this repository. The Bausteine cited are pinned to v1.0 of the Lieferketten-Checkliste and will be updated when BSI revises the document.
+
+```ts
+import { supplierQuestionnaire } from "@nisd2/nis2-supplier-questionnaire";
+
+// Every field that helps satisfy BES.4.A5 (supplier ISMS):
+const fields = supplierQuestionnaire.fields.filter(
+  (f) => f.bsiBausteine?.includes("BES.4.A5"),
+);
+```
+
+---
+
 ## Field shape
 
 ```ts
 {
-  id:          "mfaEnforcedInternal"      // stable camelCase key
-  section:     "security_practices"
-  type:        "boolean"                  // string | text | email | phone | url | country | boolean | enum | integer
-  label:       { en, de }
-  description: { en, de }                 // why this field exists, with legal context
-  legalBasis:  "NIS2 Art. 21(2)(j)"       // canonical citation
-  required:    true
-  visibleWhen: { field: "isSaas", equals: true }   // optional — gates section visibility
-  options?:    [{ value, label: { en, de } }]      // type=enum only
+  id:            "mfaEnforcedInternal"       // stable camelCase key
+  section:       "security_practices"
+  type:          "boolean"                   // string | text | email | phone | url | country | boolean | enum | integer
+  label:         { en, de }
+  description:   { en, de }                  // why this field exists, with legal context
+  legalBasis:    "NIS2 Art. 21(2)(j)"        // canonical primary citation
+  bsiBausteine?: ["BES.4.A4.1"]              // optional — BSI Lieferketten-Checkliste IDs satisfied
+  required:      true
+  visibleWhen:   { field: "isSaas", equals: true }  // optional — gates section visibility
+  options?:      [{ value, label: { en, de } }]     // type=enum only
 }
 ```
 

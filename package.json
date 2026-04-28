@@ -1,6 +1,6 @@
 {
   "name": "@nisd2/nis2-supplier-questionnaire",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Open NIS2 supply-chain questionnaire — a Zod-typed catalogue of supplier-due-diligence fields anchored to NIS2, CIR 2024/2690, ENISA TIG, and BSI IT-Grundschutz. The questions a customer subject to NIS2 supply-chain obligations needs to ask their suppliers.",
   "license": "SEE LICENSE IN LICENSE",
   "homepage": "https://github.com/NISD2/nis2-supplier-questionnaire",
