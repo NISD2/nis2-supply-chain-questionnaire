@@ -8,7 +8,7 @@ import { type SupplierQuestionnaire } from "./schema";
  * Bump these constants when shipping a release; CI will fail if the
  * generated JSON falls out of sync.
  */
-export declare const VERSION = "3.0.1";
+export declare const VERSION = "3.0.2";
 export declare const LAST_UPDATED = "2026-04-28";
 export declare const supplierQuestionnaire: SupplierQuestionnaire;
 export declare function groupBySection(q: SupplierQuestionnaire): Map<string, {
